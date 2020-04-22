@@ -1,0 +1,14 @@
+<div class=container>
+<mat-accordion multi="true" *ngIf="posts.length>0" >
+  <mat-expansion-panel *ngFor="let item of posts" >
+    <mat-expansion-panel-header>{{item.title}}</mat-expansion-panel-header>
+    <p>{{item.content}}</p>
+    <mat-action-row>
+      <button mat-raised-button
+      color='primary'><mat-icon>edit</mat-icon></button>
+      <button mat-raised-button
+      color='warn'><mat-icon>delete</mat-icon></button>
+    </mat-action-row>
+  </mat-expansion-panel></mat-accordion>
+<p class="info-text mat-body-1" *ngIf="posts.length<= 0">No posts yet !!</p>
+</div>
