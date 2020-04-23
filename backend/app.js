@@ -1,15 +1,17 @@
 //here we create our express app
-
 const express = require('express');
 const bp = require('body-parser');
 const Post = require('./Model/post');
 const mongoose = require('mongoose');
 const app = express(); //express app created
-const connectionString="mongodb+srv://Ishani:CrvsglzXMU63su4n@cluster0-asi4q.mongodb.net/test?retryWrites=true&w=majority";
+// const connectionString="mongodb+srv://ishani:fJHzqjA6yDgg97Vg@cluster0-asi4q.mongodb.net/test?retryWrites=true&w=majority";
 //creating connection with mongodbATLAS
-mongoose.connect(connectionString, { useNewUrlParser: true })
+mongoose.connect("mongodb://ishani:fJHzqjA6yDgg97Vg@cluster0-shard-00-00-asi4q.mongodb.net:27017,cluster0-shard-00-01-asi4q.mongodb.net:27017,cluster0-shard-00-02-asi4q.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",{ useNewUrlParser: true })
   .then(() => { console.log('DB Connection Successfull'); })
-  .catch(() => { console.log('DB connection failed'); });
+  .catch((error) => { console.log('DB connection failed');
+console.log(error) });
+
+  // fJHzqjA6yDgg97Vg
 
 //middle ware created. We can have multiple middleware as per our convinience
 app.use(bp.json());
