@@ -9,10 +9,9 @@ export class PostService {
   private posts: Post[] = [];
   public updatedPost = new Subject<Post>();
 
-
-  getPosts(): Observable<{ message: string; posts: Post[] }> {
+  getPosts(): Observable<{ message: string; posts: any }> {
     // return this.posts;
-    return this.http.get<{ message: string; posts: Post[] }>(
+    return this.http.get<{ message: string; posts: any }>(
       'http://localhost:1001/api/posts'
     );
   }
@@ -23,18 +22,22 @@ export class PostService {
   addPost(post: Post) {
     // const obj: Post = { title: post.title, content: post.content };
     this.http
-      .post<{ message: string }>('http://localhost:1001/api/addposts', post)
+      .post<{ message: string; id: string }>(
+        'http://localhost:1001/api/addposts',
+        post
+      )
       .subscribe(
-        (msg) => {
-          // i have to call get post message is successfull
-          console.log(msg);
+        (obj) => {
+          console.log(obj.message);
+          const id = obj.id;
+          post.id = id;
+          console.log(post);
+          this.posts.push(post);
+          this.updatedPost.next(post);
         },
         (err) => console.error('Observer got an error: ' + err),
         () => {
           console.log('Observer got a complete notification');
-          this.posts.push(post);
-
-          this.updatedPost.next(post);
         }
       );
   }

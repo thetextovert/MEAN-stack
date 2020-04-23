@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
-import { Subscription } from 'rxjs';
-
+import { Subscription, pipe } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -20,9 +20,22 @@ export class PostListComponent implements OnInit, OnDestroy {
   constructor(public ps: PostService) {}
 
   ngOnInit(): void {
-    this.ps.getPosts().subscribe((data) => {
-      this.posts = data.posts;
-    });
+    this.ps
+      .getPosts()
+      .pipe(
+        map((data) => {
+          return data.posts.map((post) => {
+            return {
+              id: post._id,
+              title: post.title,
+              content: post.content,
+            };
+          });
+        })
+      )
+      .subscribe((transformedData) => {
+        this.posts = transformedData ;
+      });
     this.subs = this.ps.updatedPost.subscribe((data) => {
       this.posts = this.posts.concat(data);
 

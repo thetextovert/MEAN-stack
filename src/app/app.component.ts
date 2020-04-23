@@ -6,7 +6,7 @@ import { Post } from './posts/post.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'full-stack';
+  title = 'Blog-post-app';
   // storedPost = [];
   // onPostAdded(post) {
   //   this.storedPost.push(post);

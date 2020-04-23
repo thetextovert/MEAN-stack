@@ -31,21 +31,24 @@ app.use((req, res, next) => {
 
 //api requests
 app.get('/api/posts', (req, res, next) => {
-  const posts = [{
-    id: '65sdf',
-    title: 'first post',
-    content: 'this is the first post from the server'
-  },
-  {
-    id: '6s4df',
-    title: 'second post',
-    content: 'this is the second post from the server'
-  }];
-
+  // const posts = [{
+  //   id: '65sdf',
+  //   title: 'first post',
+  //   content: 'this is the first post from the server'
+  // },
+  // {
+  //   id: '6s4df',
+  //   title: 'second post',
+  //   content: 'this is the second post from the server'
+  // }];
+Post.find().then((document)=>{
+  console.log("from get method"+document);
   res.status(200).json({
     message: 'server successfully fetched posts',
-    posts: posts
+    posts: document
   });
+})
+
   // next(); //imp to call next because it will not let you proceed
 });
 
