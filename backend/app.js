@@ -6,12 +6,17 @@ const mongoose = require('mongoose');
 const app = express(); //express app created
 // const connectionString="mongodb+srv://ishani:fJHzqjA6yDgg97Vg@cluster0-asi4q.mongodb.net/test?retryWrites=true&w=majority";
 //creating connection with mongodbATLAS
-mongoose.connect("mongodb://ishani:fJHzqjA6yDgg97Vg@cluster0-shard-00-00-asi4q.mongodb.net:27017,cluster0-shard-00-01-asi4q.mongodb.net:27017,cluster0-shard-00-02-asi4q.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",{ useNewUrlParser: true })
+mongoose.connect("mongodb://ishani:fJHzqjA6yDgg97Vg@cluster0-shard-00-00-asi4q.mongodb.net:27017,cluster0-shard-00-01-asi4q.mongodb.net:27017,cluster0-shard-00-02-asi4q.mongodb.net:27017/blog-post-db?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",
+  { useNewUrlParser: true ,
+    useUnifiedTopology: true }
+  )
   .then(() => { console.log('DB Connection Successfull'); })
-  .catch((error) => { console.log('DB connection failed');
-console.log(error) });
+  .catch((error) => {
+    console.log('DB connection failed');
+    console.log(error)
+  });
 
-  // fJHzqjA6yDgg97Vg
+// fJHzqjA6yDgg97Vg
 
 //middle ware created. We can have multiple middleware as per our convinience
 app.use(bp.json());
@@ -50,6 +55,7 @@ app.post('/api/addposts', (req, res, next) => {
     title: req.body.title,
     content: req.body.content
   });
+  post.save();//mongoose save feature will save this post as document in posts colleoction (automatically generate corresponding to Post model)
   console.log(post);
   res.status(201).json({ message: 'data posted successfully' });
 });
