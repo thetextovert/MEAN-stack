@@ -7,9 +7,11 @@ const app = express(); //express app created
 // const connectionString="mongodb+srv://ishani:fJHzqjA6yDgg97Vg@cluster0-asi4q.mongodb.net/test?retryWrites=true&w=majority";
 //creating connection with mongodbATLAS
 mongoose.connect("mongodb://ishani:fJHzqjA6yDgg97Vg@cluster0-shard-00-00-asi4q.mongodb.net:27017,cluster0-shard-00-01-asi4q.mongodb.net:27017,cluster0-shard-00-02-asi4q.mongodb.net:27017/blog-post-db?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",
-  { useNewUrlParser: true ,
-    useUnifiedTopology: true }
-  )
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+)
   .then(() => { console.log('DB Connection Successfull'); })
   .catch((error) => {
     console.log('DB connection failed');
@@ -41,13 +43,13 @@ app.get('/api/posts', (req, res, next) => {
   //   title: 'second post',
   //   content: 'this is the second post from the server'
   // }];
-Post.find().then((document)=>{
-  console.log("from get method"+document);
-  res.status(200).json({
-    message: 'server successfully fetched posts',
-    posts: document
-  });
-})
+  Post.find().then((document) => {
+    console.log("from get method" + document);
+    res.status(200).json({
+      message: 'server successfully fetched posts',
+      posts: document
+    });
+  })
 
   // next(); //imp to call next because it will not let you proceed
 });
@@ -63,5 +65,14 @@ app.post('/api/addposts', (req, res, next) => {
   res.status(201).json({ message: 'data posted successfully' });
 });
 
+
+app.delete('/api/addposts/:id', (req, res, next) => {
+  const id = req.params.id;
+  Post.deleteOne({ _id: id }, (err)=> {
+    if (err) console.log(err);
+    res.status(201).json({ message: "post deleted" });
+
+  });
+});
 
 module.exports = app;

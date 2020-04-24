@@ -18,8 +18,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   private subs: Subscription;
 
   constructor(public ps: PostService) {}
-
+  onDeletePost(id: string) {
+    this.ps.deletePost(id);
+  }
   ngOnInit(): void {
+    this.ps.getCentralisedPost();
     this.ps
       .getPosts()
       .pipe(
@@ -34,11 +37,16 @@ export class PostListComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((transformedData) => {
-        this.posts = transformedData ;
-      });
+        // transformedData is the result of pipe,map operation
+      this.posts = transformedData;
+    });
     this.subs = this.ps.updatedPost.subscribe((data) => {
       this.posts = this.posts.concat(data);
 
+      // console.log(this.posts);
+    });
+    this.ps.updatedPosts.subscribe((postsArray) => {
+      this.posts = postsArray;
       console.log(this.posts);
     });
   }
