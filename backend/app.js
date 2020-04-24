@@ -18,7 +18,7 @@ mongoose.connect("mongodb://ishani:fJHzqjA6yDgg97Vg@cluster0-shard-00-00-asi4q.m
     console.log(error)
   });
 
-// fJHzqjA6yDgg97Vg
+
 
 //middle ware created. We can have multiple middleware as per our convinience
 app.use(bp.json());
@@ -33,16 +33,7 @@ app.use((req, res, next) => {
 
 //api requests
 app.get('/api/posts', (req, res, next) => {
-  // const posts = [{
-  //   id: '65sdf',
-  //   title: 'first post',
-  //   content: 'this is the first post from the server'
-  // },
-  // {
-  //   id: '6s4df',
-  //   title: 'second post',
-  //   content: 'this is the second post from the server'
-  // }];
+
   Post.find().then((document) => {
     console.log("from get method" + document);
     res.status(200).json({
@@ -61,14 +52,16 @@ app.post('/api/addposts', (req, res, next) => {
     content: req.body.content
   });
   post.save();//mongoose save feature will save this post as document in posts colleoction (automatically generate corresponding to Post model)
-  console.log(post);
-  res.status(201).json({ message: 'data posted successfully' });
+  res.status(201).json({
+    message: 'data posted successfully',
+    id: post._id
+  });
 });
 
 
 app.delete('/api/addposts/:id', (req, res, next) => {
   const id = req.params.id;
-  Post.deleteOne({ _id: id }, (err)=> {
+  Post.deleteOne({ _id: id }, (err) => {
     if (err) console.log(err);
     res.status(201).json({ message: "post deleted" });
 

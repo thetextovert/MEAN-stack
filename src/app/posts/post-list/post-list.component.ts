@@ -23,29 +23,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.ps.getCentralisedPost();
-    this.ps
-      .getPosts()
-      .pipe(
-        map((data) => {
-          return data.posts.map((post) => {
-            return {
-              id: post._id,
-              title: post.title,
-              content: post.content,
-            };
-          });
-        })
-      )
-      .subscribe((transformedData) => {
-        // transformedData is the result of pipe,map operation
-      this.posts = transformedData;
-    });
-    this.subs = this.ps.updatedPost.subscribe((data) => {
-      this.posts = this.posts.concat(data);
-
-      // console.log(this.posts);
-    });
-    this.ps.updatedPosts.subscribe((postsArray) => {
+    this.subs = this.ps.updatedPosts.subscribe((postsArray) => {
       this.posts = postsArray;
       console.log(this.posts);
     });

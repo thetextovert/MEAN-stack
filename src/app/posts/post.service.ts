@@ -8,11 +8,9 @@ import { map } from 'rxjs/operators';
 export class PostService {
   constructor(public http: HttpClient) {}
   private posts: Post[] = [];
-  public updatedPost = new Subject<Post>();
   public updatedPosts = new Subject<Post[]>();
 
   getPosts(): Observable<{ message: string; posts: any }> {
-    // return this.posts;
     return this.http.get<{ message: string; posts: any }>(
       'http://localhost:1001/api/posts'
     );
@@ -39,6 +37,7 @@ export class PostService {
         this.posts = transformedData;
         console.log('from centralized array method :');
         console.log(this.posts);
+        this.updatedPosts.next(this.posts);
       });
   }
 
@@ -51,16 +50,14 @@ export class PostService {
       )
       .subscribe(
         (obj) => {
-          console.log(obj.message);
+          alert(obj.message);
+          console.log(obj.id);
           post.id = obj.id;
-          console.log(post.id);
+
           this.posts.push(post);
-          this.updatedPost.next(post);
+          this.updatedPosts.next(this.posts);
+
         },
-        (err) => console.error('Observer got an error: ' + err),
-        () => {
-          console.log('Observer got a complete notification');
-        }
       );
   }
 
