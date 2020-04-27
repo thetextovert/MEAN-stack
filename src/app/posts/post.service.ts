@@ -48,17 +48,23 @@ export class PostService {
         'http://localhost:1001/api/addposts',
         post
       )
-      .subscribe(
-        (obj) => {
-          alert(obj.message);
-          console.log(obj.id);
-          post.id = obj.id;
+      .subscribe((obj) => {
+        alert(obj.message);
+        console.log(obj.id);
+        post.id = obj.id;
 
-          this.posts.push(post);
-          this.updatedPosts.next(this.posts);
-
-        },
-      );
+        this.posts.push(post);
+        this.updatedPosts.next(this.posts);
+      });
+  }
+  updatePost(post: Post) {
+    this.http.put<{ message: string }>(
+      'http://localhost:1001/api/addposts/' + post.id,
+      post
+    ).subscribe((obj) => {
+      alert(obj.message);
+      this.updatedPosts.next(this.posts);
+    });
   }
 
   deletePost(id: string) {
@@ -74,5 +80,8 @@ export class PostService {
         this.posts = updatedPostsArray;
         this.updatedPosts.next(this.posts);
       });
+  }
+  getEditablePost(id: string) {
+    return this.posts.find((p) => p.id === id);
   }
 }

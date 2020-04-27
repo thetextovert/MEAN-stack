@@ -1,1 +1,15 @@
-<mat-toolbar color=primary>My Thoughts</mat-toolbar>
+<mat-toolbar color="primary">
+  <!-- <a routerLink=""
+    ><img
+      [src]="imgUrl"
+      class="rounded-circle"
+      alt="the note book"
+
+  /></a> -->
+  <span><a routerLink="/">My Notes</a></span>
+  <span class="spacer"></span>
+  <ul>
+    <li ><a mat-button routerLink="/create" routerLinkActive="mat-accent">Create</a></li>
+    <li></li>
+  </ul>
+</mat-toolbar>

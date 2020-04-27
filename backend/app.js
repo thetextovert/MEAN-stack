@@ -58,6 +58,22 @@ app.post('/api/addposts', (req, res, next) => {
   });
 });
 
+app.put('/api/addposts/:id', (req, res, next) => {
+  const post = new Post({
+    _id: req.body.id,
+    title: req.body.title,
+    content: req.body.content
+  });
+  Post.updateOne({ _id: req.params.id }, post)
+    .then((result) => {
+      console.log(result);
+      res.status(201).json({ message: "post updated" });
+    });
+
+});
+
+
+
 
 app.delete('/api/addposts/:id', (req, res, next) => {
   const id = req.params.id;

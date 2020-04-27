@@ -14,7 +14,7 @@
         matInput
         rows="4"
         name="content"
-        ngModel
+       ngModel
         required
         #content="ngModel"
       ></textarea>
@@ -24,9 +24,13 @@
     </mat-form-field>
 
     <button mat-raised-button color="accent" type="submit">
-      Save post
+      {{buttonName}}
     </button>
   </form>
-
+<hr>
   <!-- <p>{{ newPost }}</p> -->
 </mat-card>
+
+
+<!-- [ngModel]="post.content"
+[ngModel]="post.title" -->

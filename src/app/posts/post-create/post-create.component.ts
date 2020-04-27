@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Post } from '../post.model';
 import { NgForm } from '@angular/forms';
 import { PostService } from '../post.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-post-create',
@@ -13,7 +14,12 @@ export class PostCreateComponent implements OnInit {
   // enteredContent = '';
 
   // @Output() postCreated = new EventEmitter<Post>();
-  constructor(public ps: PostService) {}
+  public post: Post;
+  private mode = 'create';
+  private result: boolean;
+  private postID: string;
+  public buttonName = 'Save Post';
+  constructor(public ps: PostService, private route: ActivatedRoute) {}
   // onAddPost(post: HTMLTextAreaElement) {
   onAddPost(form: NgForm) {
     if (form.invalid) {
@@ -24,9 +30,25 @@ export class PostCreateComponent implements OnInit {
       title: form.value.title,
       content: form.value.content,
     };
-    this.ps.addPost(post);
+    if (this.mode === 'create') {
+      this.ps.addPost(post);
+    } else {
+      this.ps.updatePost(post);
+    }
     form.resetForm();
+
     // this.postCreated.emit(post);
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((pm: ParamMap) => {
+      if (pm.has('postID')) {
+        this.mode = 'edit';
+        this.post = this.ps.getEditablePost(pm.get('postID'));
+        console.log(this.post);
+        this.buttonName = 'Update';
+      } else {
+        this.mode = 'create';
+      }
+    });
+  }
 }
