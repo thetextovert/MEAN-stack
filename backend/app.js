@@ -68,7 +68,10 @@ app.put('/api/addposts/:id', (req, res, next) => {
     .then((result) => {
       console.log(result);
       res.status(201).json({ message: "post updated" });
-    });
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
 
 });
 

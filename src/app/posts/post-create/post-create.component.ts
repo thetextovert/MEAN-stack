@@ -25,15 +25,24 @@ export class PostCreateComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    const post: Post = {
-      id: null,
-      title: form.value.title,
-      content: form.value.content,
-    };
+    // const post: Post = {
+    //   id: null,
+    //   title: form.value.title,
+    //   content: form.value.content,
+    // };
     if (this.mode === 'create') {
+      const post: Post = {
+        id: null,
+        title: form.value.title,
+        content: form.value.content,
+      };
       this.ps.addPost(post);
     } else {
-      this.ps.updatePost(post);
+      console.log(this.post);
+      this.post.title = form.value.title;
+      this.post.content = form.value.content;
+      console.log(this.post);
+      this.ps.updatePost(this.post);
     }
     form.resetForm();
 
@@ -44,7 +53,7 @@ export class PostCreateComponent implements OnInit {
       if (pm.has('postID')) {
         this.mode = 'edit';
         this.post = this.ps.getEditablePost(pm.get('postID'));
-        console.log(this.post);
+        // console.log(this.post);
         this.buttonName = 'Update';
       } else {
         this.mode = 'create';
