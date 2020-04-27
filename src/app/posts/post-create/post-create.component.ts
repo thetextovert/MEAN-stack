@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Post } from '../post.model';
 import { NgForm } from '@angular/forms';
 import { PostService } from '../post.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-create',
@@ -19,7 +19,11 @@ export class PostCreateComponent implements OnInit {
   private result: boolean;
   private postID: string;
   public buttonName = 'Save Post';
-  constructor(public ps: PostService, private route: ActivatedRoute) {}
+  constructor(
+    public ps: PostService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
   // onAddPost(post: HTMLTextAreaElement) {
   onAddPost(form: NgForm) {
     if (form.invalid) {
@@ -38,11 +42,13 @@ export class PostCreateComponent implements OnInit {
       };
       this.ps.addPost(post);
     } else {
-      console.log(this.post);
+      console.log(this.post); // post before editing
+      // changing the value of post as per editing
       this.post.title = form.value.title;
       this.post.content = form.value.content;
-      console.log(this.post);
+      console.log(this.post); // post after editing
       this.ps.updatePost(this.post);
+      this.router.navigate(['/']); // this function of router will navigate to posts page once updation is complete
     }
     form.resetForm();
 
@@ -52,7 +58,7 @@ export class PostCreateComponent implements OnInit {
     this.route.paramMap.subscribe((pm: ParamMap) => {
       if (pm.has('postID')) {
         this.mode = 'edit';
-        this.post = this.ps.getEditablePost(pm.get('postID'));
+        this.post = this.ps.getEditablePost(pm.get('postID')); // pm.get('id') will fetch the post id in the route parameters
         // console.log(this.post);
         this.buttonName = 'Update';
       } else {
