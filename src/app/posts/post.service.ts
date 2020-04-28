@@ -45,7 +45,7 @@ export class PostService {
     // const obj: Post = { title: post.title, content: post.content };
     this.http
       .post<{ message: string; id: string }>(
-        'http://localhost:1001/api/addposts',
+        'http://localhost:1001/api/posts',
         post
       )
       .subscribe((obj) => {
@@ -59,7 +59,7 @@ export class PostService {
   }
   updatePost(post: Post) {
     this.http.put<{ message: string }>(
-      'http://localhost:1001/api/addposts/' + post.id,
+      'http://localhost:1001/api/posts/' + post.id,
       post
     ).subscribe((obj) => {
       alert(obj.message);
@@ -69,7 +69,7 @@ export class PostService {
 
   deletePost(id: string) {
     this.http
-      .delete<{ message: string }>('http://localhost:1001/api/addposts/' + id)
+      .delete<{ message: string }>('http://localhost:1001/api/posts/' + id)
       .subscribe((obj) => {
         alert(obj.message);
         console.log(this.posts);
