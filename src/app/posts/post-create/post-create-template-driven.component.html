@@ -1,0 +1,36 @@
+<mat-card>
+  <form (submit)="onAddPost(postform)" #postform="ngForm">
+    <mat-form-field>
+      <mat-label>Enter title :</mat-label>
+      <input matInput name="title" [ngModel]="post?.title" required #title="ngModel" />
+      <!-- [ngModel]="post?.title" Putting '?' after post will ensure that post is defined or not.
+      if defined , this input will get prepopulated else it will appear empty without giving an error  -->
+      <mat-error *ngIf="title.invalid">
+        Title required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Write a post :</mat-label>
+      <textarea
+        matInput
+        rows="4"
+        name="content"
+        [ngModel]="post?.content"
+        required
+        #content="ngModel"
+      ></textarea>
+      <mat-error *ngIf="content.invalid">
+        Description required
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" type="submit">
+      {{buttonName}}
+    </button>
+  </form>
+<hr>
+  <!-- <p>{{ newPost }}</p> -->
+</mat-card>
+
+

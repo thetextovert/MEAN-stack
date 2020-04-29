@@ -58,13 +58,15 @@ export class PostService {
       });
   }
   updatePost(post: Post) {
-    this.http.put<{ message: string }>(
-      'http://localhost:1001/api/posts/' + post.id,
-      post
-    ).subscribe((obj) => {
-      alert(obj.message);
-      this.updatedPosts.next(this.posts);
-    });
+    this.http
+      .put<{ message: string }>(
+        'http://localhost:1001/api/posts/' + post.id,
+        post
+      )
+      .subscribe((obj) => {
+        alert(obj.message);
+        this.updatedPosts.next(this.posts);
+      });
   }
 
   deletePost(id: string) {

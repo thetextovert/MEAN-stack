@@ -4,3 +4,6 @@ mat-form-field,textarea{
 
   width:100%;
 }
+input[type=file]{
+  display: none;
+}

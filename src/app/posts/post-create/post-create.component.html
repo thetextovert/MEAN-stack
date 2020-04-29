@@ -1,36 +1,26 @@
 <mat-card>
-  <form (submit)="onAddPost(postform)" #postform="ngForm">
+  <form [formGroup]="form" (submit)="onAddPost()">
     <mat-form-field>
       <mat-label>Enter title :</mat-label>
-      <input matInput name="title" [ngModel]="post?.title" required #title="ngModel" />
-      <!-- [ngModel]="post?.title" Putting '?' after post will ensure that post is defined or not.
-      if defined , this input will get prepopulated else it will appear empty without giving an error  -->
-      <mat-error *ngIf="title.invalid">
+      <input matInput formControlName="title" />
+      <mat-error *ngIf="form.get('title').invalid">
         Title required
       </mat-error>
     </mat-form-field>
-
+    <button mat-stroked-button type="button" (click)="imagepicker.click()">Pick an image</button>
+    <input type="file" #imagepicker />
     <mat-form-field>
       <mat-label>Write a post :</mat-label>
-      <textarea
-        matInput
-        rows="4"
-        name="content"
-        [ngModel]="post?.content"
-        required
-        #content="ngModel"
-      ></textarea>
-      <mat-error *ngIf="content.invalid">
+      <textarea matInput formControlName="content"></textarea>
+      <mat-error *ngIf="form.get('content').invalid">
         Description required
       </mat-error>
     </mat-form-field>
 
     <button mat-raised-button color="accent" type="submit">
-      {{buttonName}}
+      {{ buttonName }}
     </button>
   </form>
-<hr>
+  <hr />
   <!-- <p>{{ newPost }}</p> -->
 </mat-card>
-
-
