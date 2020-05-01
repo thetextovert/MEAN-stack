@@ -10,5 +10,7 @@
        (click)=onDeletePost(item.id)><mat-icon>delete</mat-icon></button>
     </mat-action-row>
   </mat-expansion-panel></mat-accordion>
-<p class="info-text mat-body-1" *ngIf="posts.length<= 0">No posts yet !!</p>
+<p  class="info-text mat-body-1" *ngIf="posts.length<= 0">No posts yet !!</p>
+<br>
+<button mat-raised-button color=primary type="menu" routerLink="/create"><mat-icon>arrow_back</mat-icon></button>
 </div>

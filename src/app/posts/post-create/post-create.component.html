@@ -8,7 +8,10 @@
       </mat-error>
     </mat-form-field>
     <button mat-stroked-button type="button" (click)="imagepicker.click()">Pick an image</button>
-    <input type="file" #imagepicker />
+    <input type="file" #imagepicker (change)='onImagePicked($event)'/>
+    <div class=imagePreview *ngIf="imagePreview">
+      <img [src]="imagePreview" alt='image'>
+    </div>
     <mat-form-field>
       <mat-label>Write a post :</mat-label>
       <textarea matInput formControlName="content"></textarea>
