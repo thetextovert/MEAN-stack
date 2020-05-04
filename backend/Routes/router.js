@@ -1,6 +1,10 @@
 const express = require('express');
 const Post = require('../Model/post');
-
+/* Multer adds a body object and a file or files object to the request object.
+ The body object contains the values of the text fields of the form,
+ the file or files object contains the files uploaded via the form.*/
+ const multer=require ('multer');
+ var upload = multer({ dest: 'backend/images' }); // where the media files will be uploaded
 const router = express.Router();
 
 //adding all the crud operations here in router file to make the code clear
@@ -19,13 +23,14 @@ router.get('', (req, res, next) => {
   // next(); //imp to call next because it will not let you proceed
 });
 
-router.post('', (req, res, next) => {
+router.post('',upload.single('image'), (req, res, next) => {
   // const post = req.body;
   const post = new Post({
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+    image : req.file
   });
-  post.save();//mongoose save feature will save this post as document in posts colleoction (automatically generate corresponding to Post model)
+  post.save();//mongoose save feature will save this post as document in posts collection (automatically generate corresponding to Post model)
   res.status(201).json({
     message: 'data posted successfully',
     id: post._id

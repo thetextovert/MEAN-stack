@@ -5,4 +5,5 @@ const postSchema = mongoose.Schema({
   content: { type: String, required: true }
 });
 
-module.exports=mongoose.model('Post',postSchema);//automatically generates a collection names "posts"
+module.exports=mongoose.model('Post',postSchema);
+//automatically generates a collection names "posts"

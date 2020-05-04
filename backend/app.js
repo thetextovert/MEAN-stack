@@ -22,6 +22,7 @@ mongoose.connect("mongodb://ishani:fJHzqjA6yDgg97Vg@cluster0-shard-00-00-asi4q.m
 //middle ware created. We can have multiple middleware as per our convinience
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: false }));
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept");
