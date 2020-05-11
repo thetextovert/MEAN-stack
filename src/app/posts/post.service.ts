@@ -28,6 +28,7 @@ export class PostService {
               id: post._id,
               title: post.title,
               content: post.content,
+              image: post.imagePath,
             };
           });
         })
@@ -49,27 +50,39 @@ export class PostService {
     postData.append('image', post.image, post.title);
 
     this.http
-      .post<{ message: string; id: string }>(
+      .post<{ message: string; backendPost: Post }>(
         'http://localhost:1001/api/posts',
         postData
       )
       .subscribe((obj) => {
         alert(obj.message);
         // console.log(obj.id);
-        post.id = obj.id;
-
+        post.id = obj.backendPost.id;
+        post.image = obj.backendPost.image;
         this.posts.push(post);
         this.updatedPosts.next(this.posts);
       });
   }
   updatePost(post: Post) {
+    const postData = new FormData();
+    postData.append('title', post.title);
+    postData.append('content', post.content);
+    postData.append('image', post.image, post.title);
+
     this.http
-      .put<{ message: string }>(
+      .put<{ message: string; imageUrl: string }>(
         'http://localhost:1001/api/posts/' + post.id,
-        post
+        postData
       )
       .subscribe((obj) => {
         alert(obj.message);
+        this.posts.forEach((eachPost) => {
+          if (eachPost.id === post.id) {
+            eachPost.image = obj.imageUrl;
+          }
+        });
+        // console.log(updatedPostsArray);
+        // this.posts = updatedPostsArray;
         this.updatedPosts.next(this.posts);
       });
   }

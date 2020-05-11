@@ -34,35 +34,43 @@ router.get('', (req, res, next) => {
   // next(); //imp to call next because it will not let you proceed
 });
 
+
+
 router.post('',upload.single('image'), (req, res, next) => {
   // const post = req.body;
-
-
+// creating a url for media files and storing that on db
+  const url= req.protocol+"://"+req.get('host');
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
-    image : req.file.filename
+    imagePath : url+'/images/'+req.file.filename
   });
-  console.log('++++++++++++++++++++++++++');
-  console.log(req.file.filename);
-  console.log('++++++++++++++++++++++++++');
-  post.save();//mongoose save feature will save this post as document in posts collection (automatically generate corresponding to Post model)
+
+  post.save().then((createdPost)=>{//mongoose save feature will save this post as document in posts collection (automatically generate corresponding to Post model)
   res.status(201).json({
     message: 'data posted successfully',
-    id: post._id
+
+    post:{
+      ...createdPost,
+    id: createdPost._id,
+    // imagePath : post.imagePath,
+    }
   });
 });
+});
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id',upload.single('image'), (req, res, next) => {
+  const url= req.protocol+"://"+req.get('host');
   const post = new Post({
-    _id: req.body.id,
+    _id: req.params.id,
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+    imagePath : url+'/images/'+req.file.filename
   });
   Post.updateOne({ _id: req.params.id }, post)
-    .then((result) => {
-      console.log(result);
-      res.status(201).json({ message: "post updated" });
+    .then(() => {
+      res.status(201).json({ message: "post updated",
+    imagePath: post.imagePath });
     })
     .catch((err) => {
       console.log(err);

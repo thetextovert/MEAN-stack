@@ -44,6 +44,7 @@ export class PostCreateComponent implements OnInit {
       console.log(this.post); // post before editing
       this.post.title = this.form.value.title;
       this.post.content = this.form.value.content;
+      this.post.image = this.form.value.image;
       console.log(this.post); // post after editing
       this.ps.updatePost(this.post);
       this.router.navigate(['/']); // this function of router will navigate to posts page once updation is complete
@@ -85,6 +86,7 @@ export class PostCreateComponent implements OnInit {
         this.form.setValue({
           title: this.post.title,
           content: this.post.content,
+          image: this.post.image
         });
       } else {
         this.mode = 'create';
