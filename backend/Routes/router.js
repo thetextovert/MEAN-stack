@@ -4,7 +4,18 @@ const Post = require('../Model/post');
  The body object contains the values of the text fields of the form,
  the file or files object contains the files uploaded via the form.*/
  const multer=require ('multer');
- var upload = multer({ dest: 'backend/images' }); // where the media files will be uploaded
+//  var upload = multer({ dest: 'backend/images' }); // where the media files will be uploaded
+const storage=multer.diskStorage({
+  destination:(req,file,cb)=>{
+    cb(null, 'backend/images')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now()+'.jpeg')
+// The Date.now() method returns the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC.
+  }
+});
+var upload = multer({ storage: storage });
+
 const router = express.Router();
 
 //adding all the crud operations here in router file to make the code clear
@@ -13,7 +24,7 @@ const router = express.Router();
 router.get('', (req, res, next) => {
 
   Post.find().then((document) => {
-    console.log("from get method" + document);
+    // console.log("from get method" + document);
     res.status(200).json({
       message: 'server successfully fetched posts',
       posts: document
@@ -25,11 +36,16 @@ router.get('', (req, res, next) => {
 
 router.post('',upload.single('image'), (req, res, next) => {
   // const post = req.body;
+
+
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
-    image : req.file
+    image : req.file.filename
   });
+  console.log('++++++++++++++++++++++++++');
+  console.log(req.file.filename);
+  console.log('++++++++++++++++++++++++++');
   post.save();//mongoose save feature will save this post as document in posts collection (automatically generate corresponding to Post model)
   res.status(201).json({
     message: 'data posted successfully',

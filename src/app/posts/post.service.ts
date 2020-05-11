@@ -19,7 +19,7 @@ export class PostService {
   //   return this.updatedPost.asObservable();
   // }
   getCentralisedPost() {
-    console.log(this.posts);
+    // console.log(this.posts);
     this.getPosts()
       .pipe(
         map((data) => {
@@ -43,14 +43,19 @@ export class PostService {
 
   addPost(post: Post) {
     // const obj: Post = { title: post.title, content: post.content };
+    const postData = new FormData();
+    postData.append('title', post.title);
+    postData.append('content', post.content);
+    postData.append('image', post.image, post.title);
+
     this.http
       .post<{ message: string; id: string }>(
         'http://localhost:1001/api/posts',
-        post
+        postData
       )
       .subscribe((obj) => {
         alert(obj.message);
-        console.log(obj.id);
+        // console.log(obj.id);
         post.id = obj.id;
 
         this.posts.push(post);

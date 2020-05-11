@@ -33,9 +33,12 @@ export class PostCreateComponent implements OnInit {
         id: null,
         title: this.form.value.title,
         content: this.form.value.content,
+        image: this.form.value.image,
       };
+      console.log('+++++++++++++++++++');
+      console.log(this.form.value.image.name);
       this.ps.addPost(post);
-      console.log(this.form.get('image').value);
+      // console.log(this.form.get('image').value);
       this.router.navigate(['/']); // this function of router will navigate to posts page once updation is complete
     } else {
       console.log(this.post); // post before editing
@@ -57,7 +60,7 @@ export class PostCreateComponent implements OnInit {
     // here we use fileReader feature of javascript
     const reader = new FileReader();
     reader.onload = () => {
-      console.log(reader.result);
+      // console.log(reader.result);
       this.imagePreview = reader.result as string;
     };
     reader.readAsDataURL(file);
